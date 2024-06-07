@@ -5,7 +5,7 @@ I hate doing repetitive tasks, so I spent some time writing this website that do
 
 Download this repo, and open the index.html file in your browser
 
-Alternatively, you can visit this github pages here: (Pending)
+Alternatively, you can visit this github pages [here](https://ktk27yt.github.io/Best24/)
 
 # Issues:
 
