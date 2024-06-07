@@ -47,7 +47,7 @@ function parseCourseData(courseData) {
 // Define the main function to calculate best 24 credits including intro courses
 function calculateBest24Credits(input) {
     const introCourses = ["COMP 1021", "MECH 1906", "BIEN 1010", "CENG 1000", "CENG 1500", "CENG 1700", "CIVL 1100", "CIVL 1210", "ELEC 1100", "ELEC 1200",
-        "ENGG1100", "IEDA 2010", "ISDN 1001", "ISDN 1002", "ISDN 1006", "MECH 1902", "MECH 1907"];
+        "ENGG1100", "IEDA 2010", "ISDN 1001", "ISDN 1002", "ISDN 1006", "MECH 1902", "MECH 1907", "COMP 2011"];
 
     const courses = parseCourseData(input);
 
@@ -70,14 +70,26 @@ function calculateBest24Credits(input) {
 
     for (let course of otherCourses) {
         if (selectedCredits >= 24) break;
+
+        // Check if adding the entire course would exceed 24 credits
         if (selectedCredits + course.credits <= 24) {
             selectedCourses.push(course);
             selectedCredits += course.credits;
+        } else {
+            // Calculate the remaining credits needed to reach 24
+            let remainingCredits = 24 - selectedCredits;
+
+            // Create a partial course object with adjusted credits and points
+            let partialCourse = { ...course, credits: remainingCredits };
+            partialCourse.points = gradeToPoints(course.grade) * (remainingCredits / course.credits);
+
+            selectedCourses.push(partialCourse);
+            selectedCredits += remainingCredits;
         }
     }
 
     let totalGradePoints = selectedCourses.reduce((sum, course) => sum + (course.points * course.credits), 0);
-    let gpa = totalGradePoints / selectedCredits;
+    let gpa = totalGradePoints / 24;
 
     return {
         selectedCourses,
