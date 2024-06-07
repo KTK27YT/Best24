@@ -69,6 +69,9 @@ function calculateBest24Credits(input) {
     });
     console.log(introCoursesIncluded);
     introCoursesIncluded.sort((a, b) => (b.points) - (a.points));
+    if (introCoursesIncluded.length < 2) {
+        alert("You have not taken enough intro courses!")
+    }
     if (introCoursesIncluded.length > 2) {
         otherCourses = [...otherCourses, ...introCoursesIncluded.slice(2)];
         introCoursesIncluded = introCoursesIncluded.slice(0, 2);
