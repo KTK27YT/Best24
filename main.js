@@ -81,14 +81,23 @@ function calculateBest24Credits(input) {
 
             // Create a partial course object with adjusted credits and points
             let partialCourse = { ...course, credits: remainingCredits };
-            partialCourse.points = gradeToPoints(course.grade) * (remainingCredits / course.credits);
+            partialCourse.points = gradeToPoints(course.grade);
 
             selectedCourses.push(partialCourse);
             selectedCredits += remainingCredits;
         }
     }
 
-    let totalGradePoints = selectedCourses.reduce((sum, course) => sum + (course.points * course.credits), 0);
+    //  let totalGradePoints = selectedCourses.reduce((sum, course) => sum + (course.points * course.credits), 0);
+    // let totalGradePoints = selectedCourses.reduce((sum, course) => sum + (course.points), 0);
+    sum = 0;
+    selectedCourses.forEach(course => {
+        console.log(courses);
+        sum += course.points * course.credits;
+    }
+    );
+    totalGradePoints = sum;
+    console.log(`Total grade points: ${totalGradePoints}`);
     let gpa = totalGradePoints / 24;
 
     return {
