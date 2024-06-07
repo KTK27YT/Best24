@@ -91,51 +91,7 @@ function calculateBest24Credits(input) {
 
 
 
-const newCoursesText = `
-GO!
 
-go to ...
-SHARMA, Kartik 沙桌謙
-
-Search
-Plan
-Enroll
-My Academics
-
-My Course History
-Select Display Option
-Hide courses from My Planner
-Show courses from My Planner
-Sort results by
-
-Then by
-
-sort
-Taken
-Taken
-Transferred
-Transferred
-In Progress
-In Progress
-Course Description Term Grade Units Status
-COMP 1021 Intro to Computer Science 2023-24 Fall B- 3.00 Taken
-ECON 1220 Think like an Economist: Micro 2023-24 Spring C+ 3.00 Taken
-HMAW 1905B Habits, Mindsets, and Wellness 2023-24 Fall PP 3.00 Taken
-HMAW 1905B Habits, Mindsets, and Wellness 2023-24 Spring P 3.00 Taken
-ISOM 1700 Critical Issues Buss Operation 2023-24 Winter B 3.00 Taken
-LANG 1402 Eng Lang for Uni Studies 2023-24 Fall T 3.00 Transferred
-LANG 1403A Academic Eng for Uni Studies 2023-24 Fall A- 3.00 Taken
-LEGL 1000 Legal Education 2023-24 Fall P 0.00 Taken
-MATH 1012 Calculus IA 2023-24 Fall B- 4.00 Taken
-MATH 1014 Calculus II 2023-24 Spring C 3.00 Taken
-MECH 1906 ME for Modern Life 2023-24 Spring C+ 3.00 Taken
-PHYS 1101 Introductory Physics 2023-24 Fall B 4.00 Taken
-PHYS 1112 Gen Phys I Calculus 2023-24 Spring C 3.00 Taken
-Search Plan Enroll My Academics
-GO!
-
-go to ...
-`;
 function extractCourseData(text) {
     // Use regular expressions to find the section between 'Status' and the next occurrence of 'Search'
     const regex = /Status([\s\S]*?)Search/;
