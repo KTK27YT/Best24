@@ -53,6 +53,7 @@ function calculateBest24Credits(input) {
 
     // Separate intro courses and other courses
     let introCoursesIncluded = [];
+
     let otherCourses = [];
 
     courses.forEach(course => {
@@ -62,9 +63,9 @@ function calculateBest24Credits(input) {
             otherCourses.push(course);
         }
     });
-
-    otherCourses.sort((a, b) => (b.points * b.credits) - (a.points * a.credits));
-
+    console.log(introCoursesIncluded);
+    otherCourses.sort((a, b) => (b.points) - (a.points));
+    console.log(otherCourses);
     let selectedCourses = [...introCoursesIncluded];
     let selectedCredits = introCoursesIncluded.reduce((sum, course) => sum + course.credits, 0);
 
@@ -99,7 +100,7 @@ function calculateBest24Credits(input) {
     totalGradePoints = sum;
     console.log(`Total grade points: ${totalGradePoints}`);
     let gpa = totalGradePoints / 24;
-
+    gpa = gpa.toFixed(3);
     return {
         selectedCourses,
         gpa,
@@ -138,7 +139,7 @@ function run() {
     console.log(result);
     // Now we make a sick ass table full of the courses we included and the total gpa
     outputtitle = document.getElementById("OutputHead");
-    outputtitle.innerHTML = "Your Best " + result.totalCredits + " Credits " + " GPA: " + result.gpa.toFixed(4);
+    outputtitle.innerHTML = "Your Best " + result.totalCredits + " Credits " + " GPA: " + result.gpa;
     let courseTableBody = document.getElementById("course-table");
     let courseRows = '';
     result.selectedCourses.forEach(course => {
