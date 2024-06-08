@@ -20,7 +20,7 @@ function parseCourseData(courseData) {
     // Extract course details from each line
     const courses = lines.map(line => {
         // Using regex to match the course components
-        const parts = line.match(/^(\S+)\s+(.+?)\s+(\d{4}-\d{2}\s+\S+)\s+(\S+)\s+(\d+\.\d{2})\s+(\S+)$/);
+        const parts = line.match(/^([A-Z]{4}\s\d{4}[A-Z]?)\s(.+?)\s+(\d{4}-\d{2}\s+[A-z]+)\s+(\S+)\s+(\d+\.\d{2})\s+([A-z]+)$/);
 
         if (!parts) {
             console.error(`Invalid line format: ${line}`);
@@ -37,9 +37,11 @@ function parseCourseData(courseData) {
 
         console.log(`code: ${code}, title: ${title}, term: ${term}, grade: ${grade}, credits: ${credits}, points: ${points}`);
         return { code, title, term, grade, credits, points, status };
-    }).filter(course => course !== null && !["P", "PP", "T"].includes(course.grade));
+    }).filter(course => course !== null);
+    const ust_courses = courses.filter(course => !["P", "PP", "T"].includes(course.grade));
+    const passed_courses = courses.map(course => course.code);
 
-    return courses;
+    return [ust_courses, passed_courses];
 }
 
 
@@ -47,9 +49,9 @@ function parseCourseData(courseData) {
 // Define the main function to calculate best 24 credits including intro courses
 function calculateBest24Credits(input) {
     const introCourses = ["COMP 1021", "MECH 1906", "BIEN 1010", "CENG 1000", "CENG 1500", "CENG 1700", "CIVL 1100", "CIVL 1210", "ELEC 1100", "ELEC 1200",
-        "ENGG1100", "IEDA 2010", "ISDN 1001", "ISDN 1002", "ISDN 1006", "MECH 1902", "MECH 1907", "COMP 2011"];
+        "ENGG1100", "IEDA 2010", "ISDN 1001", "ISDN 1002", "ISDN 1006", "MECH 1902", "MECH 1907"];
 
-    const courses = parseCourseData(input);
+    const [courses, passed_courses] = parseCourseData(input);
 
     // Separate intro courses and other courses
     let introCoursesIncluded = [];
@@ -57,13 +59,23 @@ function calculateBest24Credits(input) {
     let otherCourses = [];
 
     courses.forEach(course => {
-        if (introCourses.includes(course.code)) {
+        if (introCourses.includes(course.code)
+            || (course.code == "COMP 2011") && (!passed_courses.includes("COMP 1021") && !passed_courses.includes("COMP 1022P"))
+        ) {
             introCoursesIncluded.push(course);
         } else {
             otherCourses.push(course);
         }
     });
     console.log(introCoursesIncluded);
+    introCoursesIncluded.sort((a, b) => (b.points) - (a.points));
+    if (introCoursesIncluded.length < 2) {
+        alert("You have not taken enough intro courses!")
+    }
+    if (introCoursesIncluded.length > 2) {
+        otherCourses = [...otherCourses, ...introCoursesIncluded.slice(2)];
+        introCoursesIncluded = introCoursesIncluded.slice(0, 2);
+    }
     otherCourses.sort((a, b) => (b.points) - (a.points));
     console.log(otherCourses);
     let selectedCourses = [...introCoursesIncluded];
